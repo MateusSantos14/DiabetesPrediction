@@ -1,0 +1,13 @@
+# Ignorar cache Python e arquivos temporários
+__pycache__/
+*.pyc
+
+# Ignorar modelos treinados (opcional, mas recomendado para repositórios grandes)
+# Se você precisar que os modelos estejam no Git, remova ou comente estas linhas.
+*.pkl
+*.joblib
+
+# Ignorar o ambiente virtual
+.venv/
+env/
+venv/

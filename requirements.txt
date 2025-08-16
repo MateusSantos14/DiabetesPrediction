@@ -1,0 +1,12 @@
+fastapi
+pydantic
+joblib
+pandas
+numpy
+uvicorn  # É uma boa prática incluir o servidor ASGI que você vai usar, como o Uvicorn.
+python-dotenv  # Se você for usar variáveis de ambiente
+scikit-learn  # A maioria dos módulos de machine learning que você importou são do Scikit-Learn
+matplotlib
+seaborn
+graphviz
+scipy
