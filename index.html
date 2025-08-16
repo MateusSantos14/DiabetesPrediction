@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Predição de Modelo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Testar Predição de Diabetes</h1>
+
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Forms de entrada de dados -->
+            <div class="flex-1">
+                <h2 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Entrada Manual de Dados</h2>
+                <form id="predictionForm" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Gender (Sexo) -->
+                        <div>
+                            <label for="Gender" class="block text-sm font-medium text-gray-700">Sexo (0=Feminino, 1=Masculino)</label>
+                            <input type="number" id="Gender" name="Gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- AGE (Idade) -->
+                        <div>
+                            <label for="AGE" class="block text-sm font-medium text-gray-700">Idade</label>
+                            <input type="number" id="AGE" name="AGE" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- Urea (Ureia) -->
+                        <div>
+                            <label for="Urea" class="block text-sm font-medium text-gray-700">Ureia</label>
+                            <input type="number" step="any" id="Urea" name="Urea" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- Cr (Creatinina) -->
+                        <div>
+                            <label for="Cr" class="block text-sm font-medium text-gray-700">Creatinina</label>
+                            <input type="number" step="any" id="Cr" name="Cr" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- HbA1c -->
+                        <div>
+                            <label for="HbA1c" class="block text-sm font-medium text-gray-700">HbA1c</label>
+                            <input type="number" step="any" id="HbA1c" name="HbA1c" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- Chol -->
+                        <div>
+                            <label for="Chol" class="block text-sm font-medium text-gray-700">Colesterol</label>
+                            <input type="number" step="any" id="Chol" name="Chol" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- TG -->
+                        <div>
+                            <label for="TG" class="block text-sm font-medium text-gray-700">Triglicerídeos</label>
+                            <input type="number" step="any" id="TG" name="TG" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- HDL -->
+                        <div>
+                            <label for="HDL" class="block text-sm font-medium text-gray-700">HDL</label>
+                            <input type="number" step="any" id="HDL" name="HDL" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- LDL -->
+                        <div>
+                            <label for="LDL" class="block text-sm font-medium text-gray-700">LDL</label>
+                            <input type="number" step="any" id="LDL" name="LDL" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- VLDL -->
+                        <div>
+                            <label for="VLDL" class="block text-sm font-medium text-gray-700">VLDL</label>
+                            <input type="number" step="any" id="VLDL" name="VLDL" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                        <!-- BMI -->
+                        <div>
+                            <label for="BMI" class="block text-sm font-medium text-gray-700">IMC (BMI)</label>
+                            <input type="number" step="any" id="BMI" name="BMI" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Fazer Predição
+                    </button>
+                </form>
+            </div>
+            <!-- Entrada de dados por CSV -->
+            <div class="flex-1">
+                <h2 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Entrada Via CSV</h2>
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-500">Cole uma linha do seu arquivo CSV abaixo. Certifique-se de que a ordem dos valores corresponda a: Gender, AGE, Urea, Cr, HbA1c, Chol, TG, HDL, LDL, VLDL, BMI.</p>
+                    <div>
+                        <label for="csvInput" class="block text-sm font-medium text-gray-700">Linha CSV:</label>
+                        <textarea id="csvInput" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" placeholder="Ex: 1, 45, 6.7, 1.2, 5.8, 200, 150, 45, 120, 30, 25.4"></textarea>
+                    </div>
+                    <button id="predictCsvBtn" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Predizer a Partir do CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Área de resultados -->
+        <div id="results" class="mt-8 p-6 bg-gray-100 rounded-lg shadow-inner hidden">
+            <h2 class="text-2xl font-bold mb-4 text-center">Resultado da Predição</h2>
+            <p id="predictionResult" class="text-xl text-center font-bold"></p>
+        </div>
+        <div id="error" class="mt-8 p-4 bg-red-100 border border-red-400 text-red-700 rounded relative hidden">
+            <span id="errorMessage"></span>
+        </div>
+    </div>
+
+    <script>
+        const predictionForm = document.getElementById('predictionForm');
+        const predictCsvBtn = document.getElementById('predictCsvBtn');
+        const csvInput = document.getElementById('csvInput');
+        const resultsDiv = document.getElementById('results');
+        const predictionResultP = document.getElementById('predictionResult');
+        const errorDiv = document.getElementById('error');
+        const errorMessageSpan = document.getElementById('errorMessage');
+
+        const API_URL = 'http://127.0.0.1:8000/predict'; // URL do endpoint da sua API
+
+        // Função para exibir resultados
+        function displayResult(prediction) {
+            resultsDiv.classList.remove('hidden');
+            errorDiv.classList.add('hidden');
+            let resultText = "";
+            if (prediction === 0) {
+                resultText = "Resultado: Não-Diabético";
+                predictionResultP.className = "text-xl text-center font-bold text-green-600";
+            } else if (prediction === 1) {
+                resultText = "Resultado: Pré-Diabético";
+                predictionResultP.className = "text-xl text-center font-bold text-yellow-600";
+            } else if (prediction === 2) {
+                resultText = "Resultado: Diabético";
+                predictionResultP.className = "text-xl text-center font-bold text-red-600";
+            } else {
+                 resultText = `Resultado: Classe ${prediction}`;
+                 predictionResultP.className = "text-xl text-center font-bold text-blue-600";
+            }
+            predictionResultP.textContent = resultText;
+        }
+
+        // Função para exibir erros
+        function displayError(message) {
+            resultsDiv.classList.add('hidden');
+            errorDiv.classList.remove('hidden');
+            errorMessageSpan.textContent = message;
+        }
+
+        // Função genérica para chamar a API
+        async function callApi(data) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    displayResult(result.prediction);
+                } else {
+                    displayError(`Erro da API: ${result.detail || 'Falha na predição.'}`);
+                }
+
+            } catch (error) {
+                displayError(`Erro de rede ou servidor: ${error.message}`);
+            }
+        }
+
+        // Evento de envio do formulário manual
+        predictionForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const data = {
+                Gender: parseInt(document.getElementById('Gender').value),
+                AGE: parseInt(document.getElementById('AGE').value),
+                Urea: parseFloat(document.getElementById('Urea').value),
+                Cr: parseFloat(document.getElementById('Cr').value),
+                HbA1c: parseFloat(document.getElementById('HbA1c').value),
+                Chol: parseFloat(document.getElementById('Chol').value),
+                TG: parseFloat(document.getElementById('TG').value),
+                HDL: parseFloat(document.getElementById('HDL').value),
+                LDL: parseFloat(document.getElementById('LDL').value),
+                VLDL: parseFloat(document.getElementById('VLDL').value),
+                BMI: parseFloat(document.getElementById('BMI').value)
+            };
+            callApi(data);
+        });
+
+        // Evento de clique do botão CSV
+        predictCsvBtn.addEventListener('click', function() {
+            const csvText = csvInput.value;
+            if (!csvText) {
+                displayError("O campo CSV não pode estar vazio.");
+                return;
+            }
+
+            const values = csvText.split(',').map(v => v.trim());
+            
+            // Verifica se o número de colunas está correto (11 colunas)
+            if (values.length !== 11) {
+                displayError(`Esperado 11 colunas, mas ${values.length} foram encontradas.`);
+                return;
+            }
+
+            const data = {
+                Gender: parseInt(values[0]),
+                AGE: parseInt(values[1]),
+                Urea: parseFloat(values[2]),
+                Cr: parseFloat(values[3]),
+                HbA1c: parseFloat(values[4]),
+                Chol: parseFloat(values[5]),
+                TG: parseFloat(values[6]),
+                HDL: parseFloat(values[7]),
+                LDL: parseFloat(values[8]),
+                VLDL: parseFloat(values[9]),
+                BMI: parseFloat(values[10])
+            };
+            
+            callApi(data);
+        });
+    </script>
+</body>
+</html>
