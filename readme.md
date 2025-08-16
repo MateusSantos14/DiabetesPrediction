@@ -2,6 +2,10 @@
 
 Este projeto é uma API simples em Python usando FastAPI para prever o estado de saúde de um paciente (não-diabético, pré-diabético ou diabético) com base em dados de saúde.
 
+### Dataset
+[Multiclass Diabetes Dataset](https://www.kaggle.com/datasets/yasserhessein/multiclass-diabetes-dataset/data "Multiclass Diabetes Dataset")
+
+
 ## Estrutura do Projeto
 
 A estrutura de pastas do projeto é a seguinte:
